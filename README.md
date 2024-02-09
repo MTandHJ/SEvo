@@ -8,7 +8,13 @@
 
 ## Requirements
 
-Python==3.9 | [PyTorch==1.12.1](https://pytorch.org/) | [freerec==0.4.3](https://github.com/MTandHJ/freerec)
+Use the following commands to prepare the environment (**CUDA: 11.3**):
+
+```
+conda create --name=PyT12 python=3.9; conda activate PyT12; bash setup_env.sh
+```
+
+
 
 ## Usage
 
