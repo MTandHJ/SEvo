@@ -15,7 +15,6 @@ conda create --name=PyT12 python=3.9; conda activate PyT12; bash setup_env.sh
 ```
 
 
-
 ## Usage
 
 We provide configs and experimental logs for the Neumann series approximation with re-scaling. You can re-run them and try some other hyperparameters:
