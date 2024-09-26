@@ -12,6 +12,21 @@ from freerec.data.tags import USER, ITEM, ID
 
 
 class Smoother:
+    r"""
+    Smoother.
+
+    Parameters:
+    -----------
+    graph: Data
+    beta: float
+        The hyper-parameter for SEvo.
+    L: int
+        The number of layers for approximation.
+    aggr: str
+        - `neumann`: Neuman series approximation.
+        - `momentum`: Iterative approximation.
+        - `average`: Average pooling.
+    """
 
     def __init__(
         self, graph: Data, 
@@ -101,7 +116,7 @@ def get_user_item_graph(
 def get_graph(
     cfg,
     dataset: RecDataSet, 
-    NUM_PADS: int = None,
+    NUM_PADS: int = 0,
     itemonly: bool = True
 ):
     if itemonly:

@@ -1,6 +1,6 @@
 
 
-# Graph-enhanced Optimizers for <u>S</u>tructure-aware Recommendation Embedding <u>Evo</u>lution
+## Graph-enhanced Optimizers for <u>S</u>tructure-aware Recommendation Embedding <u>Evo</u>lution
 
 
 ![](pic/2023-09-22-13-54-03.png)
