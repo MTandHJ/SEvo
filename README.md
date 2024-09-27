@@ -1,5 +1,8 @@
 
-![](pic/logo.png)
+
+<div align="center">
+  <img src="pic/logo.png">
+</div>
 
 This is the official implementation of [Graph-enhanced Optimizers for <u>S</u>tructure-aware Recommendation Embedding <u>Evo</u>lution](https://arxiv.org/abs/2310.03032).
 
