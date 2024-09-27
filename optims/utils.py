@@ -24,8 +24,7 @@ class Smoother:
         The number of layers for approximation.
     aggr: str
         - `neumann`: Neuman series approximation.
-        - `momentum`: Iterative approximation.
-        - `average`: Average pooling.
+        - `iterative`: Iterative approximation.
     """
 
     def __init__(
@@ -50,37 +49,44 @@ class Smoother:
                 features = self.aggregator(features) * self.beta
                 smoothed = smoothed + features
             smoothed = smoothed.mul(1 - self.beta).div(norm_correction)
-        elif self.aggr == 'momentum':
+        elif self.aggr == 'iterative':
             for _ in range(self.L):
                 smoothed = self.aggregator(smoothed) * self.beta + features * (1 - self.beta)
-        elif self.aggr == 'average':
-            smoothed = features / (self.L + 1)
-            for _ in range(self.L):
-                features = self.aggregator(features)
-                smoothed += features / (self.L + 1)
         else:
-            raise ValueError(f"aggr should be average|neumann|momentum but {self.aggr} received ...")
+            raise ValueError(f"aggr should be average|iterative but {self.aggr} received ...")
         return smoothed
 
 
 def get_item_graph(
     dataset: RecDataSet, 
+    H: int = 1,
+    maxlen: int = 50,
     NUM_PADS: int = 0,
-    receptive_field: int = 1,
-    maxlen: int = None
 ):
+    r"""
+    Get an item-item adjacency matrix.
+
+    Parameters:
+    -----------
+    dataset: RecDataSet
+    H: int
+        A maximum walk length allowing for a pair of neighbors.
+    maxlen: int
+        Only the last `maxlen` items in a sequence will be used for construciton.
+    NUM_PADS: int
+        The number paddings.
+    """
     Item = dataset.fields[ITEM, ID]
     seqs = dataset.train().to_seqs(keepid=False)
     edge = defaultdict(int)
-    neighbors = receptive_field
     for seq in seqs:
         seq = seq[-maxlen:]
         for i in range(len(seq) - 1):
             x = seq[i] + NUM_PADS
-            for k, j in enumerate(range(i + 1, min(i + neighbors + 1, len(seq))), start=1):
+            for h, j in enumerate(range(i + 1, min(i + H + 1, len(seq))), start=1):
                 y = seq[j] + NUM_PADS
-                edge[(x, y)] += 1. / k
-                edge[(y, x)] += 1. / k
+                edge[(x, y)] += 1. / h
+                edge[(y, x)] += 1. / h
 
     edge_index, edge_weight = zip(*edge.items())
     edge_index = torch.LongTensor(
@@ -97,6 +103,15 @@ def get_item_graph(
 def get_user_item_graph(
     dataset: RecDataSet, NUM_PADS: int = 0
 ):
+    r"""
+    Get a user-item adjacency matrix.
+
+    Parameters:
+    -----------
+    dataset: RecDataSet
+    NUM_PADS: int
+        The number paddings.
+    """
     from torch_geometric.utils import to_undirected
     User = dataset.fields[USER, ID]
     Item = dataset.fields[ITEM, ID]
@@ -109,7 +124,7 @@ def get_user_item_graph(
     T.ToSparseTensor()(graph)
     graph.adj_t = gcn_norm(
         graph.adj_t, num_nodes=User.count + Item.count + NUM_PADS,
-        add_self_loops=False #
+        add_self_loops=False
     )
     return graph
 
@@ -120,7 +135,7 @@ def get_graph(
     itemonly: bool = True
 ):
     if itemonly:
-        graph = get_item_graph(dataset, NUM_PADS, receptive_field=cfg.H, maxlen=cfg.maxlen4graph)
+        graph = get_item_graph(dataset, H=cfg.H, maxlen=cfg.maxlen4graph, NUM_PADS=NUM_PADS)
     else:
-        graph = get_user_item_graph(dataset, NUM_PADS)
+        graph = get_user_item_graph(dataset, NUM_PADS=NUM_PADS)
     return graph

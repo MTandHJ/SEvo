@@ -18,10 +18,10 @@ cfg = freerec.parser.Parser()
 cfg.add_argument("-eb", "--embedding-dim", type=int, default=64)
 cfg.add_argument("--maxlen4graph", type=int, default=50)
 
-cfg.add_argument("--aggr", type=str, choices=('neumann', 'average', 'momentum'), default='neumann')
-cfg.add_argument("--L", type=int, default=3)
-cfg.add_argument("--beta3", type=float, default=0.9)
-cfg.add_argument("--H", type=int, default=1)
+cfg.add_argument("--aggr", type=str, choices=('neumann', 'iterative'), default='neumann')
+cfg.add_argument("--L", type=int, default=3, help="the number of layers for approximation")
+cfg.add_argument("--beta3", type=float, default=0.9, help="the beta hyper-parameter")
+cfg.add_argument("--H", type=int, default=1, help="the maximum walk length allowing for a pair of neighbors")
 
 cfg.set_defaults(
     description="MF-BPR",

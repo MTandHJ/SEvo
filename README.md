@@ -1,6 +1,7 @@
 
+![](pic/logo.png)
 
-## Graph-enhanced Optimizers for <u>S</u>tructure-aware Recommendation Embedding <u>Evo</u>lution
+This is the official implementation of [Graph-enhanced Optimizers for <u>S</u>tructure-aware Recommendation Embedding <u>Evo</u>lution](https://arxiv.org/abs/2310.03032).
 
 
 ![](pic/2023-09-22-13-54-03.png)
@@ -8,7 +9,7 @@
 
 ## Requirements
 
-Use the following commands to prepare the environment (**CUDA: 11.3**):
+Run the following commands to prepare the environment (**CUDA: 11.3/11.6**):
 
 ```
 conda create --name=PyT12 python=3.9; conda activate PyT12; bash setup_env.sh
@@ -24,8 +25,7 @@ python main.py --config=configs/xxx.yaml --optimizer=AdamWSEvo --aggr=neumann --
 ```
 
 - optimizer: AdamWSEvo|AdamW|AdamSEvo|Adam|SGDSEvo|SGD
-- aggr: neumann|average|momentum
-- L: layers, int
+- aggr: neumann|iterative
+- L: the number of layers for approximation
 - beta3: $\beta$
-- H: Path length
-
+- H: The maximum walk length allowing for a pair of neighbors

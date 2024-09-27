@@ -28,10 +28,10 @@ cfg.add_argument("--attn-dropout-rate", type=float, default=0.)
 cfg.add_argument("--distance-metric", type=str, choices=("wasserstein", "kl"), default="wasserstein")
 cfg.add_argument("--pvn-weight", type=float, default=0.005, help="the weight for postives versus negatives")
 
-cfg.add_argument("--aggr", type=str, choices=('neumann', 'average', 'momentum'), default='neumann')
-cfg.add_argument("--L", type=int, default=3)
-cfg.add_argument("--beta3", type=float, default=0.9)
-cfg.add_argument("--H", type=int, default=1)
+cfg.add_argument("--aggr", type=str, choices=('neumann', 'iterative'), default='neumann')
+cfg.add_argument("--L", type=int, default=3, help="the number of layers for approximation")
+cfg.add_argument("--beta3", type=float, default=0.9, help="the beta hyper-parameter")
+cfg.add_argument("--H", type=int, default=1, help="the maximum walk length allowing for a pair of neighbors")
 
 cfg.set_defaults(
     description="STOSA",

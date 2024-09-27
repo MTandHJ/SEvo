@@ -22,10 +22,10 @@ cfg.add_argument("--hidden-size", type=int, default=100)
 cfg.add_argument("--emb-dropout-rate", type=float, default=0.25)
 cfg.add_argument("--num-gru-layers", type=int, default=1)
 
-cfg.add_argument("--aggr", type=str, choices=('neumann', 'average', 'momentum'), default='neumann')
-cfg.add_argument("--L", type=int, default=3)
-cfg.add_argument("--beta3", type=float, default=0.9)
-cfg.add_argument("--H", type=int, default=1)
+cfg.add_argument("--aggr", type=str, choices=('neumann', 'iterative'), default='neumann')
+cfg.add_argument("--L", type=int, default=3, help="the number of layers for approximation")
+cfg.add_argument("--beta3", type=float, default=0.9, help="the beta hyper-parameter")
+cfg.add_argument("--H", type=int, default=1, help="the maximum walk length allowing for a pair of neighbors")
 
 cfg.set_defaults(
     description="GRU4Rec",
