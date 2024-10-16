@@ -6,8 +6,10 @@
 
 This is the official implementation of [Graph-enhanced Optimizers for <u>S</u>tructure-aware Recommendation Embedding <u>Evo</u>lution](https://arxiv.org/abs/2310.03032).
 
+**Note:** We provide this code for precise reproduction of the results reported in the paper, which may be a bit troublesome to prepare the environment. [SEvo-latest](https://github.com/MTandHJ/RecBoard/tree/master/SEvo) provides an alternative supporting latest `PyTorch/PyG/FreeRec`.
 
-![](pic/2023-09-22-13-54-03.png)
+
+![](pic/2024-09-27-10-45-37.png)
 
 
 ## Requirements
